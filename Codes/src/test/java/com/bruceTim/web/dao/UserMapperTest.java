@@ -66,7 +66,7 @@ public class UserMapperTest {
         user.setUsername("abc");
         User user1 = userMapper.selectBySelective(user);
         System.out.println(JSON.toJSONString(user1));
-        PasswordHelper.authPassword(user1,PasswordHelper.algorithmName_MD5, 2);
+//        PasswordHelper.changePassword(user1,PasswordHelper.algorithmName_MD5, 2,"");
     }
 
     @Test
