@@ -36,11 +36,109 @@
     sample_terms, specification, company_description, deliver_time, file1, file2, file3, 
     urgent, subscribed, state, other, content
   </sql>
+  <sql id="Page_Column_List">
+    id, sender, subject, create_time, state, urgent
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from t_email
     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByPrimaryKeySelective" resultMap="BaseResultMap" parameterType="Email" >
+    select
+    <include refid="Base_Column_List" />
+    from t_email
+    where id = #{id,jdbcType=BIGINT}
+    <if test="sender != null" >
+      and sender = #{sender,jdbcType=VARCHAR}
+    </if>
+    <if test="subject != null" >
+      and subject = #{subject,jdbcType=VARCHAR}
+    </if>
+    <if test="transfer != null" >
+      and transfer = #{transfer,jdbcType=VARCHAR}
+    </if>
+    <if test="receiver != null" >
+      and receiver = #{receiver,jdbcType=VARCHAR}
+    </if>
+    <if test="createTime != null" >
+      and create_time = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="senderName != null" >
+      and sender_name = #{senderName,jdbcType=VARCHAR}
+    </if>
+    <if test="senderCompany != null" >
+      and sender_company = #{senderCompany,jdbcType=VARCHAR}
+    </if>
+    <if test="senderPhone != null" >
+      and sender_phone = #{senderPhone,jdbcType=VARCHAR}
+    </if>
+    <if test="senderFax != null" >
+      and sender_fax = #{senderFax,jdbcType=VARCHAR}
+    </if>
+    <if test="website != null" >
+      and website = #{website,jdbcType=VARCHAR}
+    </if>
+    <if test="senderCountry != null" >
+      and sender_country = #{senderCountry,jdbcType=VARCHAR}
+    </if>
+    <if test="priceTerms != null" >
+      and price_terms = #{priceTerms,jdbcType=VARCHAR}
+    </if>
+    <if test="payment != null" >
+      and payment = #{payment,jdbcType=VARCHAR}
+    </if>
+    <if test="initialOrder != null" >
+      and initial_order = #{initialOrder,jdbcType=VARCHAR}
+    </if>
+    <if test="sampleTerms != null" >
+      and sample_terms = #{sampleTerms,jdbcType=VARCHAR}
+    </if>
+    <if test="specification != null" >
+      and specification = #{specification,jdbcType=BIT}
+    </if>
+    <if test="companyDescription != null" >
+      and company_description = #{companyDescription,jdbcType=BIT}
+    </if>
+    <if test="deliverTime != null" >
+      and deliver_time = #{deliverTime,jdbcType=BIT}
+    </if>
+    <if test="file1 != null" >
+      and file1 = #{file1,jdbcType=VARCHAR}
+    </if>
+    <if test="file2 != null" >
+      and file2 = #{file2,jdbcType=VARCHAR}
+    </if>
+    <if test="file3 != null" >
+      and file3 = #{file3,jdbcType=VARCHAR}
+    </if>
+    <if test="urgent != null" >
+      and urgent = #{urgent,jdbcType=BIT}
+    </if>
+    <if test="subscribed != null" >
+      and subscribed = #{subscribed,jdbcType=BIT}
+    </if>
+    <if test="state != null" >
+      and state = #{state,typeHandler=com.bruceTim.core.generic.GenericEnumHandler}
+    </if>
+    <if test="other != null" >
+      and other = #{other,jdbcType=VARCHAR}
+    </if>
+    <if test="content != null" >
+      and content = #{content,jdbcType=LONGVARCHAR}
+    </if>
+  </select>
+  <select id="selectByStateForPage" resultMap="BaseResultMap" parameterType="Integer" >
+    select
+    <include refid="Page_Column_List" />
+    from t_email
+    where state = #{state,jdbcType=INTEGER}
+  </select>
+  <select id="selectAllForPage" resultMap="BaseResultMap">
+    select
+    <include refid="Page_Column_List" />
+    from t_email
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from t_email
@@ -65,7 +163,7 @@
       #{sampleTerms,jdbcType=VARCHAR}, #{specification,jdbcType=BIT}, #{companyDescription,jdbcType=BIT}, 
       #{deliverTime,jdbcType=BIT}, #{file1,jdbcType=VARCHAR}, #{file2,jdbcType=VARCHAR}, 
       #{file3,jdbcType=VARCHAR}, #{urgent,jdbcType=BIT}, #{subscribed,jdbcType=BIT},
-      #{state,jdbcType=INTEGER}, #{other,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
+      #{state,typeHandler=com.bruceTim.core.generic.GenericEnumHandler}, #{other,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="Email" >
@@ -227,7 +325,7 @@
         #{subscribed,jdbcType=BIT},
       </if>
       <if test="state != null" >
-        #{state,jdbcType=INTEGER},
+        #{state,typeHandler=com.bruceTim.core.generic.GenericEnumHandler},
       </if>
       <if test="other != null" >
         #{other,jdbcType=VARCHAR},
@@ -307,10 +405,10 @@
         urgent = #{urgent,jdbcType=BIT},
       </if>
       <if test="subscribed != null" >
-        subscribe = #{subscribed,jdbcType=BIT},
+        subscribed = #{subscribed,jdbcType=BIT},
       </if>
       <if test="state != null" >
-        state = #{state,jdbcType=INTEGER},
+        state = #{state,typeHandler=com.bruceTim.core.generic.GenericEnumHandler},
       </if>
       <if test="other != null" >
         other = #{other,jdbcType=VARCHAR},
@@ -346,7 +444,7 @@
       file3 = #{file3,jdbcType=VARCHAR},
       urgent = #{urgent,jdbcType=BIT},
       subscribed = #{subscribed,jdbcType=BIT},
-      state = #{state,jdbcType=INTEGER},
+      state = #{state,typeHandler=com.bruceTim.core.generic.GenericEnumHandler},
       other = #{other,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
