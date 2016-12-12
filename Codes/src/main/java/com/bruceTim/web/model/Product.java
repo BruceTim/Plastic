@@ -1,6 +1,11 @@
 package com.bruceTim.web.model;
 
-import java.util.Date;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson.serializer.ValueFilter;
+
+import java.util.*;
 
 public class Product {
     private Long id;
@@ -45,6 +50,8 @@ public class Product {
 
     private String pictures;
 
+    private List<String> pictureSet;
+
     public String getCustomProperties() {
         return customProperties;
     }
@@ -69,12 +76,27 @@ public class Product {
         this.description = description == null ? null : description.trim();
     }
 
+    @JSONField(serialize = false)
     public String getPictures() {
         return pictures;
     }
 
     public void setPictures(String pictures) {
-        this.pictures = pictures == null ? null : pictures.trim();
+        this.pictures = pictures == null ? null : pictures;
+        if (!"".equals(pictures)) {
+            setPictureSet(Arrays.asList(pictures.split("\\|")));
+        } else {
+            setPictureSet(new ArrayList<String>());
+        }
+    }
+
+    @JSONField(name = "pictures", serialzeFeatures = {SerializerFeature.WriteNullListAsEmpty})
+    public List<String> getPictureSet () {
+        return pictureSet;
+    }
+
+    public void setPictureSet (List<String> pictureSet) {
+        this.pictureSet = pictureSet;
     }
 
     public Long getId() {
@@ -212,4 +234,5 @@ public class Product {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
 }

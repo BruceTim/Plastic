@@ -50,15 +50,22 @@ public class Email {
 
     private String file3;
 
-    private Boolean urgent;
+    private boolean urgent;
 
-    private Boolean subscribed;
+    private boolean subscribed;
 
     private EmailState state;
 
     private String other;
 
     private String content;
+
+    public Email (Long id) {
+        this.id = id;
+    }
+
+    public Email () {
+    }
 
     public Long getId() {
         return id;
@@ -100,6 +107,7 @@ public class Email {
         this.receiver = receiver == null ? null : receiver.trim();
     }
 
+    @JSONField(format = "yyyyMMdd HH:mm:ss")
     public Date getCreateTime() {
         return createTime;
     }
@@ -236,19 +244,19 @@ public class Email {
         this.file3 = file3 == null ? null : file3.trim();
     }
 
-    public Boolean getUrgent() {
+    public boolean getUrgent() {
         return urgent;
     }
 
-    public void setUrgent(Boolean urgent) {
+    public void setUrgent(boolean urgent) {
         this.urgent = urgent;
     }
 
-    public Boolean getSubscribed() {
+    public boolean getSubscribed() {
         return subscribed;
     }
 
-    public void setSubscribed(Boolean subscribed) {
+    public void setSubscribed(boolean subscribed) {
         this.subscribed = subscribed;
     }
 
@@ -257,8 +265,11 @@ public class Email {
         return state;
     }
 
-    @JSONField(name = "state")
-    public String getStateString(){return state.getText(); }
+    @JSONField(name = "stateValue")
+    public int getStateValue(){return state.getValue(); }
+
+    @JSONField(name = "stateText")
+    public String getStateText(){return state.getText(); }
 
     public void setState(EmailState state) {
         this.state = state;
