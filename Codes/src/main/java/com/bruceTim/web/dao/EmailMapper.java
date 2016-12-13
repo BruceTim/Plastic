@@ -10,6 +10,8 @@ public interface EmailMapper extends GenericDao<Email, Long>{
 
     int insert (Email record);
 
+    int updateAll (int state);
+
     int updateByPrimaryKey (Email record);
 
     Email selectByPrimaryKeySelective(Email email);

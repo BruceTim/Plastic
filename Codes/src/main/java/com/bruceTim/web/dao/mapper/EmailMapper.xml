@@ -335,6 +335,19 @@
       </if>
     </trim>
   </insert>
+  <update id="updateAll" parameterType="java.lang.Integer">
+    update t_email
+    <choose>
+      <when test="state == 2">
+          set state = #{state, jdbcType=INTEGER}
+          where state = 1
+      </when>
+      <otherwise>
+        set state = #{state, jdbcType=INTEGER}
+        where state &lt;=2
+      </otherwise>
+    </choose>
+  </update>
   <update id="updateByPrimaryKeySelective" parameterType="Email" >
     update t_email
     <set >
