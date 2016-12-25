@@ -60,7 +60,22 @@ public class Product {
         this.customProperties = customProperties == null ? null : customProperties.trim();
     }
 
+    @JSONField(serialize = false)
     public String getContent() {
+        return content;
+    }
+
+    /**
+     *  输出content 的前150个字符
+     * @return
+     */
+    @JSONField(name="content")
+    public String getContent1() {
+        if (content != null && content.length() >=150) {
+            String str = content.substring(0, 150);
+            str = str.substring(0, str.lastIndexOf(" "));
+            content = str + "...";
+        }
         return content;
     }
 
@@ -227,6 +242,7 @@ public class Product {
         this.productName = productName == null ? null : productName.trim();
     }
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateTime() {
         return createTime;
     }
