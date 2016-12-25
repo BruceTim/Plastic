@@ -56,7 +56,9 @@
     <if test="categoryId !=0 " >
       and p.category_id = #{categoryId,jdbcType=BIGINT}
     </if>
-    and p.product_name LIKE CONCAT('%', #{name}, '%')
+    <if test="name != null and name != ''">
+      and p.product_name LIKE CONCAT('%', #{name}, '%')
+    </if>
   </select>
 
   <select id="selectSelectiveByPage" resultMap="BaseResultMap" >
