@@ -1,9 +1,7 @@
 package com.bruceTim.web.model;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.serializer.ValueFilter;
 
 import java.util.*;
 
@@ -111,7 +109,18 @@ public class Product {
     }
 
     public void setPictureSet (List<String> pictureSet) {
+        if(pictureSet == null) {
+            this.pictureSet = new ArrayList<>();
+            this.pictures = "";
+            return;
+        }
         this.pictureSet = pictureSet;
+        StringBuffer sBuffer = new StringBuffer();
+        for (String picture:pictureSet) {
+            sBuffer.append(picture).append('|');
+        }
+        sBuffer.deleteCharAt(sBuffer.length()-1);
+        this.pictures = sBuffer.toString();
     }
 
     public Long getId() {

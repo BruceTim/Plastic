@@ -18,6 +18,7 @@
     select 
     <include refid="Base_Column_List" />
     from t_category
+    order by id
   </select>
   <select id="selectSelective" resultMap="BaseResultMap" parameterType="Category" >
     select

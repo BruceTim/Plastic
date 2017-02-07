@@ -11,6 +11,8 @@ public interface ProductMapper extends GenericDao<Product, Long>{
 
     int insert (Product record);
 
+    long insertAndGetId (Product record);
+
     int deleteAdviceByPrimaryKey (Long id);
 
     int updateByPrimaryKey (Product record);

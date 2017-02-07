@@ -20,12 +20,18 @@ import java.util.List;
 @Service
 public class ProductServiceImpl extends GenericServiceImpl<Product, Long> implements ProductService {
 
+
     @Resource
     private ProductMapper productMapper;
 
     @Override
     public GenericDao<Product, Long> getDao () {
         return this.productMapper;
+    }
+
+    @Override
+    public long insertAndGetId(Product product){
+        return productMapper.insertAndGetId(product);
     }
 
     @Override

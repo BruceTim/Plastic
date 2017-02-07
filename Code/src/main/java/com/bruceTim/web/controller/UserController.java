@@ -2,6 +2,7 @@ package com.bruceTim.web.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.bruceTim.core.entity.Result;
+import com.bruceTim.core.util.PasswordHelper;
 import com.bruceTim.web.service.UserService;
 import com.bruceTim.web.model.User;
 import com.bruceTim.web.service.UserService;
@@ -45,28 +46,31 @@ public class UserController {
         try {
             User userInfo = userService.login(user.getUsername(), user.getPassword());
             // 验证成功在Session中保存用户信息
-            userInfo.setSalt(null);
             HttpSession session = request.getSession();
             session.setAttribute("userInfo", userInfo);
             session.setAttribute("username", user.getUsername());
         } catch (UnknownAccountException e) {
-            return "../login";
+            return "admin/login";
         }
-        return "admin/index";
+        return "redirect:../admin/index";
     }
 
     /**
      * /users/id
      * 修改个人资料
      * @param id
-     * @param user
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseBody
-    public String update(@PathVariable("id") Long id, @ModelAttribute User user) {
-        if (user == null ) {
+    public String update(@PathVariable("id") Long id, HttpSession session, User user) {
+        User userInfo = (User)session.getAttribute("userInfo");
+        if (userInfo == null ) {
             return JSON.toJSONString(new Result("你还未登录，请先登录！", 1, false));
+        }
+        if (user.getPassword() != null) {
+            user.setSalt(userInfo.getSalt());
+            user = PasswordHelper.changePassword(user, PasswordHelper.algorithmName_MD5, 2);
         }
         int rs = userService.update(user);
         if (rs > 0) {

@@ -40,10 +40,10 @@ public class PasswordHelper {
      * @param algorithmName algorithmName_MD5/algorithmName_SHA1/algorithmName_SHA256
      * @param hashIterations
      */
-    public static User changePassword(User user, String algorithmName, int hashIterations, String password) {
+    public static User changePassword(User user, String algorithmName, int hashIterations) {
         String newPassword = new SimpleHash(
                 algorithmName,
-                password,
+                user.getPassword(),
                 ByteSource.Util.bytes(user.getSalt()),
                 hashIterations).toHex();
         user.setPassword(newPassword);

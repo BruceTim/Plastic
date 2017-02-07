@@ -174,8 +174,8 @@
     delete from t_product
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="Product" >
-    insert into t_product (id, category_id, tag1,
+  <insert id="insert" parameterType="Product">
+    insert into t_product (category_id, tag1,
       tag2, tag3, brand_name, 
       model_number, certification, place_of_origin, 
       min_order_qty, price, payment_terms, 
@@ -183,7 +183,7 @@
       product_name, create_time, custom_properties, 
       content, description, pictures
       )
-    values (#{id,jdbcType=BIGINT}, #{category.id,jdbcType=BIGINT}, #{tag1,jdbcType=VARCHAR},
+    values (#{tag1,jdbcType=VARCHAR},
       #{tag2,jdbcType=VARCHAR}, #{tag3,jdbcType=VARCHAR}, #{brandName,jdbcType=VARCHAR}, 
       #{modelNumber,jdbcType=VARCHAR}, #{certification,jdbcType=VARCHAR}, #{placeOfOrigin,jdbcType=VARCHAR}, 
       #{minOrderQty,jdbcType=VARCHAR}, #{price,jdbcType=VARCHAR}, #{paymentTerms,jdbcType=VARCHAR}, 
@@ -191,6 +191,24 @@
       #{productName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{customProperties,jdbcType=LONGVARCHAR}, 
       #{content,jdbcType=LONGVARCHAR}, #{description,jdbcType=LONGVARCHAR}, #{pictures,jdbcType=LONGVARCHAR}
       )
+  </insert>
+  <insert id="insertAndGetId" parameterType="Product" useGeneratedKeys="true" keyProperty="id">
+    insert into t_product (category_id, tag1,
+    tag2, tag3, brand_name,
+    model_number, certification, place_of_origin,
+    min_order_qty, price, payment_terms,
+    supply_ability, delivery_time, packaging_details,
+    product_name, create_time, custom_properties,
+    content, description, pictures
+    )
+    values (#{category.id,jdbcType=VARCHAR},#{tag1,jdbcType=VARCHAR},
+    #{tag2,jdbcType=VARCHAR}, #{tag3,jdbcType=VARCHAR}, #{brandName,jdbcType=VARCHAR},
+    #{modelNumber,jdbcType=VARCHAR}, #{certification,jdbcType=VARCHAR}, #{placeOfOrigin,jdbcType=VARCHAR},
+    #{minOrderQty,jdbcType=VARCHAR}, #{price,jdbcType=VARCHAR}, #{paymentTerms,jdbcType=VARCHAR},
+    #{supplyAbility,jdbcType=VARCHAR}, #{deliveryTime,jdbcType=VARCHAR}, #{packagingDetails,jdbcType=VARCHAR},
+    #{productName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{customProperties,jdbcType=LONGVARCHAR},
+    #{content,jdbcType=LONGVARCHAR}, #{description,jdbcType=LONGVARCHAR}, #{pictures,jdbcType=LONGVARCHAR}
+    )
   </insert>
   <insert id="insertSelective" parameterType="Product" >
     insert into t_product

@@ -1,11 +1,10 @@
 package com.bruceTim.web.controller;
 
-import com.bruceTim.core.util.ImageUploadUtil;
-import com.bruceTim.web.util.GlobalData;
+import com.bruceTim.web.service.BosService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -17,6 +16,9 @@ import java.io.IOException;
 @RequestMapping("/files")
 public class FileController {
 
+    @Resource
+    private BosService bosService;
+
     /**
      * ckeditor图片上传
      *
@@ -24,18 +26,17 @@ public class FileController {
      * @param request
      * @param response
      */
-    @RequestMapping("/upload")
-    public void imageUpload(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "type", defaultValue = "base64") String type) {
+    @RequestMapping("pictures/upload/ckeditor")
+    public void imageUpload(HttpServletRequest request, HttpServletResponse response) {
         try {
-            if (GlobalData.FILE_UPLOAD_TYPE_CKEDITOR.equals(type)) {
-                ImageUploadUtil.ckeditor(request, response, GlobalData.FILE_UPLOAD_PATH_CKEDITOR);
-            } else if (GlobalData.FILE_UPLOAD_TYPE_BASE64.equals(type)){
 
-            }
+            bosService.uploadToBOS(request, response);
 
         } catch (IllegalStateException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

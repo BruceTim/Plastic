@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface ProductService extends GenericService<Product, Long>{
 
+    long insertAndGetId(Product product);
+
     int selectAmountByCategoryId(Long categoryId);
 
     PageInfo<Product> selectListByCategoryId(Long categoryId, int pageNo, int pageSize);

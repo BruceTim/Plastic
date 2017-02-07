@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -51,13 +52,13 @@ public class CategoryController {
     /**
      * /categories， 类别添加
      * @param category
-     * @param user
      * @param request
      * @return
      */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public String add(@ModelAttribute Category category, @ModelAttribute User user, HttpServletRequest request) {
+    public String add(Category category, HttpSession session, HttpServletRequest request) {
+        User user = (User)session.getAttribute("userInfo");
         if (user == null) {
             return JSON.toJSONString(new Result("你还未登录，请先登录！", 1, false));
         }
@@ -71,12 +72,12 @@ public class CategoryController {
     /**
      * /categories， 类别添加检测
      * @param categoryName
-     * @param user
      * @return
      */
     @RequestMapping(value = "/checking", method = RequestMethod.POST)
     @ResponseBody
-    public String check(@ModelAttribute String categoryName, @ModelAttribute User user) {
+    public String check(String categoryName, HttpSession session) {
+        User user = (User)session.getAttribute("userInfo");
         if (user == null) {
             return JSON.toJSONString(new Result("你还未登录，请先登录！", 1, false));
         }
@@ -90,12 +91,12 @@ public class CategoryController {
     /**
      * /categories/id
      * @param category
-     * @param user
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseBody
-    public String update(@PathVariable("id") Long id, @ModelAttribute Category category, @ModelAttribute User user) {
+    public String update(@PathVariable("id") Long id, Category category, HttpSession session) {
+        User user = (User)session.getAttribute("userInfo");
         if (user == null) {
             return JSON.toJSONString(new Result("你还未登录，请先登录！", 1, false));
         }

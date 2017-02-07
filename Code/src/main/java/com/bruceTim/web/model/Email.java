@@ -65,6 +65,7 @@ public class Email {
     }
 
     public Email () {
+        state = EmailState.UNREAD;
     }
 
     public Long getId() {

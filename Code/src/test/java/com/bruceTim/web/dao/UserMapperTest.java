@@ -72,8 +72,8 @@ public class UserMapperTest {
     @Test
     public void updateByPrimaryKeySelective () throws Exception {
         User user = new User();
-        user.setId(1002L);
-        user.setPassword("12345678");
+        user.setId(1001L);
+        user.setPassword("12345");
         PasswordHelper.encryptPassword(user, PasswordHelper.algorithmName_MD5, 2);
         System.out.println(userMapper.updateByPrimaryKeySelective(user));
         System.out.println(JSON.toJSONString(userMapper.selectByPrimaryKey(1002L)));
